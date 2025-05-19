@@ -36,6 +36,7 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("androidx.fragment:fragment:1.8.5")
 
     implementation(libs.appcompat)
     implementation(libs.material)
