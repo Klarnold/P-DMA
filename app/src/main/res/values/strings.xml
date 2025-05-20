@@ -5,6 +5,7 @@
     <string name="signup_button">Зарегистрироваться</string>
     <string name="email">Введите свою почту</string>
     <string name="password">Введите свой пароль</string>
+    <string name="nicknameEditText">Введите свой никнейм</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

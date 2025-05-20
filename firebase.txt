@@ -1,0 +1,3 @@
++  Success! Use this token to login on a CI server:
+
+1//0906zeZhx1QENCgYIARAAGAkSNwF-L9Ir8wGlhGH5dFe_4y12H7FFjUWRUs4MWkSD1GRxlH6-eI5X8moTyKMtPPHt52ETomtgC8Y

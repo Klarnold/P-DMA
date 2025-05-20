@@ -2,12 +2,24 @@ package com.example.application;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +27,11 @@ import android.widget.Button;
  * create an instance of this fragment.
  */
 public class ApplicationMainFragment extends Fragment {
+
+    FirebaseAuth mAuth;
+    FirebaseDatabase mDatabase;
+    DatabaseReference usersReference;
+    TextView meetingMainTextView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,13 +71,38 @@ public class ApplicationMainFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_application_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_application_main, container, false);
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        usersReference = mDatabase.getReference("users/" + Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+
+        meetingMainTextView = view.findViewById(R.id.meetingMainTextView);
+
+        getData();
+
+        meetingMainTextView.setText(mDatabase.getReference().child("users").child(mAuth.getCurrentUser().getUid()).child("nickname").getKey());
+        return view;
+    }
+
+    private void getData(){
+        usersReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                meetingMainTextView.setText("Hi, " + user.getNickname() + "!");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(requireContext(), "Ошибка в получении данных пользователя", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

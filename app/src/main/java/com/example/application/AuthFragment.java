@@ -3,7 +3,6 @@ package com.example.application;
 import static android.app.ProgressDialog.show;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +27,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class AuthFragment extends Fragment {
 
     private FragmentNavigationListener navigationListener;
-    private FragmentManager fragmentManager;
-    private FrameLayout frameLayout;
     private Button signUpBtn;
     private Button signInBtn;
     private EditText emailEditText;
@@ -51,40 +47,19 @@ public class AuthFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.auth_fragment, container, false);
-        EditText icon = view.findViewById(R.id.passwordEditText);
 
-        fragmentManager = getFragmentManager();
-//        frameLayout = view.findViewById(R.id.activity_frame);
         TextView frameTextView = view.findViewById(R.id.authTextView);
-        frameTextView.setText("aaa");
+        frameTextView.setText("Авторизация");
         mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
         emailEditText = view.findViewById(R.id.emailEditText);
         passwordEditText = view.findViewById(R.id.passwordEditText);
-        view.getClass();
         signInBtn = view.findViewById(R.id.signInBtn);
         signUpBtn = view.findViewById(R.id.signUpBtn);
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email, password;
-                email = emailEditText.getText().toString();
-                password = passwordEditText.getText().toString();
-                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
-                    Toast.makeText(requireActivity(), "Не оставляйте пустые поля!", Toast.LENGTH_SHORT).show();
-                }else{
-                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                                frameTextView.setText(mAuth.getCurrentUser().getEmail());
-                                Toast.makeText(requireActivity(), "Регистрация прошла успешно " + mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(requireActivity(), "Пользователь НЕ был зарегестрирован", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
+                navigationListener.navigateToFragment(new SignUpFragment(), true);
             }
         });
 
@@ -95,7 +70,8 @@ public class AuthFragment extends Fragment {
                 email = emailEditText.getText().toString();
                 password = passwordEditText.getText().toString();
                 if (TextUtils.isEmpty(email)  || TextUtils.isEmpty(password)){
-                    navigationListener.navigateToFragment(new ApplicationMainFragment(), true); // осуществляет переход на фрагмент главной страницы
+                    passwordEditText.setText("");
+                    Toast.makeText(requireActivity(), "Не оставляйте пустые поля!", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -104,14 +80,15 @@ public class AuthFragment extends Fragment {
                             if (task.isSuccessful()){
                                 String user_id = mAuth.getCurrentUser().getEmail();
                                 frameTextView.setText(user_id);
-                                Toast.makeText(requireActivity(), user_id + " " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
                                 navigationListener.navigateToFragment(new ApplicationMainFragment(), true);
-//                                fragmentManager.beginTransaction().remove();
+                                return;
                             } else{
                                 Toast.makeText(requireActivity(), "Авторизация отменена", Toast.LENGTH_SHORT).show();
+                                return;
                             }
                         }
                     });
+                    passwordEditText.setText("");
                     Toast.makeText(requireActivity(), "Пользователя с такими почтой и паролем не существует", Toast.LENGTH_SHORT).show();
                 }
             }
