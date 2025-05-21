@@ -15,8 +15,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.application.databinding.ActivityMainBinding;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,13 +30,15 @@ import com.example.application.FragmentNavigationListener;
 
 public class MainActivity extends AppCompatActivity implements FragmentNavigationListener{
 
-
+    ActivityMainBinding binding;
+    FragmentManager fragmentManager;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference firebaseRefeference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         EdgeToEdge.enable( MainActivity.this);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
             return insets;
         });
 
+        fragmentManager = getSupportFragmentManager();
     }
 
 
@@ -60,6 +65,13 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
         if (addToBackStack) {
             transaction.addToBackStack(null);
         }
+        transaction.commit();
+    }
+
+    @Override
+    public void navigateToBottomBar(Fragment fragment){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameLayout, fragment);
         transaction.commit();
     }
 }

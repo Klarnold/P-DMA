@@ -51,7 +51,12 @@ public class AuthFragment extends Fragment {
         TextView frameTextView = view.findViewById(R.id.authTextView);
         frameTextView.setText("Авторизация");
         mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
+        if (mAuth.getCurrentUser() != null) // ВАЖНО надо убрать и оставить только signOut
+        {
+            navigationListener.navigateToFragment(new ApplicationMainFragment(), true);
+        }
+        else
+            mAuth.signOut();
         emailEditText = view.findViewById(R.id.emailEditText);
         passwordEditText = view.findViewById(R.id.passwordEditText);
         signInBtn = view.findViewById(R.id.signInBtn);

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Новости"
+        android:icon="@drawable/news_page"
+        android:id="@+id/news_page"/>
+    <item android:title="Игры"
+        android:icon="@drawable/games_page"
+        android:id="@+id/games_page"/>
+    <item android:title="Профиль"
+        android:icon="@drawable/profile_page"
+        android:id="@+id/profile_page"/>
+
+</menu>

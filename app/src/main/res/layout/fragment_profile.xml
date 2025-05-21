@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="40dp"
+        android:background="?attr/colorSurface">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:gravity="center"
+            android:text="Профиль"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+            <!-- Левая часть - изображение -->
+            <ImageView
+                android:id="@+id/profile_image_view"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+
+                android:gravity="center"
+                android:src="@mipmap/ic_launcher_round" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/change_profile_image_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:scaleType="center"
+                    android:src="@drawable/profile_page"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.SmallComponent"
+                    app:strokeColor="?attr/colorOutline"
+                    app:strokeWidth="1dp"
+                    app:tint="?attr/colorOnSurface" />
+
+            </LinearLayout>
+            <!-- Правая часть - EditText'ы в вертикальном LinearLayout -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nicknameInputLayout"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:boxBackgroundColor="@android:color/transparent"
+                        app:startIconDrawable="@drawable/common_full_open_on_phone">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/nickname_profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Имя пользователя"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textColorHint="?attr/colorOnSurfaceVariant" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/change_nickname_image_btn"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="12dp"
+                        android:scaleType="center"
+                        android:src="@drawable/profile_page"
+                        android:layout_marginStart="2dp"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.SmallComponent"
+                        app:strokeColor="?attr/colorOutline"
+                        app:strokeWidth="1dp"
+                        app:tint="?attr/colorOnSurface" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/emailInputLayout"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        app:boxBackgroundColor="@android:color/transparent"
+                        app:startIconDrawable="@drawable/common_google_signin_btn_icon_dark">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/profile_email"
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Почта"
+                            android:inputType="textEmailAddress"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textColorHint="?attr/colorOnSurfaceVariant" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/changea_image_btn"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="10dp"
+                        android:scaleType="center"
+                        android:src="@drawable/profile_page"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.SmallComponent"
+                        app:strokeColor="?attr/colorOutline"
+                        app:strokeWidth="1dp"
+                        app:tint="?attr/colorOnSurface" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_game_btn"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:text="Добавить игру"
+            app:cornerRadius="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_news_btn"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:text="Добавить новость"
+            app:cornerRadius="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_changes_btn"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Сохранить изменения"
+            app:cornerRadius="8dp" />
+    </LinearLayout>
+</FrameLayout>

@@ -1,17 +1,23 @@
 package com.example.application;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.application.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,10 +34,11 @@ import java.util.Objects;
  */
 public class ApplicationMainFragment extends Fragment {
 
+    FragmentNavigationListener navigationListener;
     FirebaseAuth mAuth;
     FirebaseDatabase mDatabase;
     DatabaseReference usersReference;
-    TextView meetingMainTextView;
+    BottomNavigationView bottomNavigationView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -83,11 +90,37 @@ public class ApplicationMainFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance();
         usersReference = mDatabase.getReference("users/" + Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
 
-        meetingMainTextView = view.findViewById(R.id.meetingMainTextView);
 
+        bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
+        BottomNavigationView navView = view.findViewById(R.id.bottomNavigationView);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.games_page) {
+                    navigationListener.navigateToBottomBar(new GamesFragment());
+
+                    return true;
+                }
+                else if (id == R.id.news_page){
+                    navigationListener.navigateToBottomBar(new NewsFragment());
+                    return true;
+                }
+                else if (id == R.id.profile_page){
+                    navigationListener.navigateToBottomBar(new ProfileFragment());
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
+
+//        meetingMainTextView = view.findViewById(R.id.meetingMainTextView);
         getData();
-
-        meetingMainTextView.setText(mDatabase.getReference().child("users").child(mAuth.getCurrentUser().getUid()).child("nickname").getKey());
+        navigationListener.navigateToBottomBar(new GamesFragment());
+//        meetingMainTextView.setText(mDatabase.getReference().child("users").child(mAuth.getCurrentUser().getUid()).child("nickname").getKey());
         return view;
     }
 
@@ -96,7 +129,7 @@ public class ApplicationMainFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                meetingMainTextView.setText("Hi, " + user.getNickname() + "!");
+//                meetingMainTextView.setText("Hi, " + user.getNickname() + "!");
             }
 
             @Override
@@ -104,5 +137,16 @@ public class ApplicationMainFragment extends Fragment {
                 Toast.makeText(requireContext(), "Ошибка в получении данных пользователя", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    // определение метода для перехода на новый фрагмент
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentNavigationListener) {
+            navigationListener = (FragmentNavigationListener) context;
+        } else {
+            throw new RuntimeException(context + " must implement FragmentNavigationListener");
+        }
     }
 }
