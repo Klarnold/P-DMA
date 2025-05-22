@@ -13,6 +13,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.SearchView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +34,10 @@ import java.util.List;
 public class GamesFragment extends Fragment {
 
 
+    private DatabaseReference mDatabase;
     private RecyclerView gamesRecycler;
-    private GamesAdapter adapter;
+    private GamesAdapter gamesAdapter;
+    private SearchView searchView;
     private List<GameItem> gamesList = new ArrayList<>();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,26 +84,35 @@ public class GamesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_games, container, false);
         // Inflate the layout for this fragment
-
+        mDatabase = FirebaseDatabase.getInstance().getReference("games");
         gamesRecycler = view.findViewById(R.id.games_recycler);
+        searchView = view.findViewById(R.id.search);
 
         // Настройка RecyclerView
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         gamesRecycler.setLayoutManager(layoutManager);
 
         // Создание и установка адаптера
-        adapter = new GamesAdapter(gamesList);
-        gamesRecycler.setAdapter(adapter);
+        gamesAdapter = new GamesAdapter(gamesList);
 
-        // Добавление элементов
-        addGameItems();
-        addGameItems();
-        addGameItems();
-        addGameItems();
-        addGameItems();
-        addGameItems();
-        addGameItems();
+        gamesRecycler.setAdapter(gamesAdapter);
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                List<GameItem> filteredList = filter(gamesList, newText);
+                // Обновляем адаптер с отфильтрованным списком
+                gamesAdapter.updateList(filteredList);
+                return false;
+            }
+        });
+
+        getData();
 
         return view;
     }
@@ -104,20 +124,49 @@ public class GamesFragment extends Fragment {
 
     }
 
-    private void addGameItems() {
-        // Добавление тестовых данных
-        gamesList.add(new GameItem("Игра 1", R.drawable.games_page));
-        gamesList.add(new GameItem("Игра 2", R.drawable.games_page));
-        gamesList.add(new GameItem("Игра 3", R.drawable.games_page));
-        gamesList.add(new GameItem("Игра 4", R.drawable.games_page));
+    private void getData(){
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<GameItem> newList = new ArrayList<>();
+                for (DataSnapshot ds: snapshot.getChildren())
+                    newList.add(ds.getValue(GameItem.class));
+                gamesAdapter.addGames(newList);
+            }
 
-        // Уведомление адаптера об изменениях
-        adapter.notifyDataSetChanged();
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(requireContext(), "Ошибка в получении данных пользователя", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    // Метод для добавления нового элемента
-    public void addNewGame(String title, int iconResId) {
-        gamesList.add(new GameItem(title, iconResId));
-        adapter.notifyItemInserted(gamesList.size() - 1);
+    private List<GameItem> filter(List<GameItem> games, String query) {
+        query = query.toLowerCase();
+        List<GameItem> filteredList = new ArrayList<>();
+
+        for (GameItem game : games) {
+            if (game.getTitle().toLowerCase().contains(query)) {
+                filteredList.add(game);
+            }
+        }
+        return filteredList;
     }
+
+//    private void addGameItems() {
+//        // Добавление тестовых данных
+//        gamesList.add(new GameItem("Игра 1", R.drawable.games_page, "user1", "desc1"));
+//        gamesList.add(new GameItem("Игра 2", R.drawable.games_page, "user1", "desc1"));
+//        gamesList.add(new GameItem("Игра 3", R.drawable.games_page, "user1", "desc1"));
+//        gamesList.add(new GameItem("Игра 4", R.drawable.games_page, "user1", "desc1"));
+//
+//        // Уведомление адаптера об изменениях
+//        adapter.notifyDataSetChanged();
+//    }
+//
+//    // Метод для добавления нового элемента
+//    public void addNewGame(String title, int iconResId, String uid, String description) {
+//        gamesList.add(new GameItem(title, iconResId, uid, description));
+//        adapter.notifyItemInserted(gamesList.size() - 1);
+//    }
 }

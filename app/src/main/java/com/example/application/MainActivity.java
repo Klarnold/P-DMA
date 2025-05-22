@@ -1,6 +1,8 @@
 package com.example.application;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
@@ -32,8 +34,9 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
 
     ActivityMainBinding binding;
     FragmentManager fragmentManager;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference firebaseRefeference;
+    public static DatabaseReference mDatabase;
+
+    public static FragmentNavigationListener navigationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,10 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
             return insets;
         });
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        navigationListener = (FragmentNavigationListener) this;
         fragmentManager = getSupportFragmentManager();
+
     }
 
 
@@ -74,4 +80,5 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
                 .replace(R.id.frameLayout, fragment);
         transaction.commit();
     }
+
 }

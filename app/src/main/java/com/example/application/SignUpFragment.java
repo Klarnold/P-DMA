@@ -3,6 +3,8 @@ package com.example.application;
 import android.content.Context;
 import android.os.Bundle;
 
+import static com.example.application.MainActivity.navigationListener;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -29,8 +31,6 @@ import com.google.firebase.database.FirebaseDatabase;
  * create an instance of this fragment.
  */
 public class SignUpFragment extends Fragment {
-
-    private FragmentNavigationListener navigationListener;
     private Button signUpBtn;
     private Button signInBtn;
     private EditText emailEditText;
@@ -135,19 +135,8 @@ public class SignUpFragment extends Fragment {
         String userId = userFromRegistration.getUid();
 
         User user = new User(nickname, email);
-
         mDatabase.child("users").child(userId).setValue(user);
     }
 
 
-    // определение метода для перехода на новый фрагмент
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof FragmentNavigationListener) {
-            navigationListener = (FragmentNavigationListener) context;
-        } else {
-            throw new RuntimeException(context + " must implement FragmentNavigationListener");
-        }
-    }
 }

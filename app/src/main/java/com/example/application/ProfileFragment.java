@@ -1,7 +1,12 @@
 package com.example.application;
 
+import static android.app.Activity.RESULT_OK;
+
+import static com.example.application.MainActivity.navigationListener;
+
 import android.Manifest;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,9 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -32,6 +39,9 @@ public class ProfileFragment extends Fragment {
     TextInputEditText nicknameEditText;
     TextInputEditText emailEditText;
     ShapeableImageView changeProfileImageButton;
+    Button createNewGameBtn;
+    Button createNewNewsBtn;
+    Button saveChangesBtn;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -80,21 +90,27 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         nicknameEditText = view.findViewById(R.id.nickname_profile);
         emailEditText = view.findViewById(R.id.profile_email);
+        createNewGameBtn = view.findViewById(R.id.create_game_btn);
+        createNewNewsBtn = view.findViewById(R.id.create_news_btn);
 
         nicknameEditText.setFocusable(false);
         emailEditText.setFocusable(false);
 
         changeProfileImageButton = view.findViewById(R.id.change_profile_image_btn);
-        changeProfileImageButton.setOnClickListener(new View.OnClickListener() {
+        createNewNewsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(requireContext(), "Изменение фотографии", Toast.LENGTH_SHORT).show();
+                navigationListener.navigateToFragment(new NewNewsFragment(), false);
+            }
+        });
+        createNewGameBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigationListener.navigateToFragment(new NewGameFragment(), false);
             }
         });
         return view;
     }
-
-
 
 
 }

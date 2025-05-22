@@ -4,6 +4,7 @@ public class User {
     private String nickname;
     private String email;
     private String uid;
+    private String image;
 
 
     public User(){
@@ -32,5 +33,9 @@ public class User {
     public String getUid() {
         return uid;
     }
+
+    public String getImage() { return image; }
+
+    public void setImage(String image) { this.image = image; }
 
 }

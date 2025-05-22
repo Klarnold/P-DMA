@@ -3,16 +3,18 @@ package com.example.application;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class GameItem implements Parcelable{
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+public class NewsItem implements Parcelable {
     private String title;
     private String uid;
     private String date;
     private String imageUrl;
     private String description;
     private String id;
-    private int iconUrl;
 
-    public GameItem(){
+    public NewsItem(){
         this.title = "None";
         this.uid = "None";
         this.date = "None";
@@ -22,16 +24,18 @@ public class GameItem implements Parcelable{
     }
 
     // Конструктор
-    public GameItem(String id, String title, String uid, String date, String imageUrl, String description) {
+    public NewsItem(String id, String title, String uid, String date, String imageUrl, String description) {
         this.title = title;
         this.uid = uid;
         this.date = date;
         this.imageUrl = imageUrl;
         this.description = description;
-        this.id = RandomIdGenerator.generateRandomString(12);
+        this.id = RandomIdGenerator.generateRandomString(10);
+
+
     }
 
-    protected GameItem(Parcel in) {
+    protected NewsItem(Parcel in) {
         id = in.readString();
         title = in.readString();
         uid = in.readString();
@@ -40,15 +44,15 @@ public class GameItem implements Parcelable{
         description = in.readString();
     }
 
-    public static final Parcelable.Creator<GameItem> CREATOR = new Parcelable.Creator<GameItem>() {
+    public static final Creator<NewsItem> CREATOR = new Creator<NewsItem>() {
         @Override
-        public GameItem createFromParcel(Parcel in) {
-            return new GameItem(in);
+        public NewsItem createFromParcel(Parcel in) {
+            return new NewsItem(in);
         }
 
         @Override
-        public GameItem[] newArray(int size) {
-            return new GameItem[size];
+        public NewsItem[] newArray(int size) {
+            return new NewsItem[size];
         }
     };
 
@@ -72,5 +76,4 @@ public class GameItem implements Parcelable{
     public String getDate() { return date; }
     public String getImageUrl() { return imageUrl; }
     public String getDescription() { return description; }
-    public int getIconUrl() { return iconUrl; }
 }

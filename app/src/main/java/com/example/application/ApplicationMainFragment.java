@@ -1,5 +1,7 @@
 package com.example.application;
 
+import static com.example.application.MainActivity.navigationListener;
+
 import android.content.Context;
 import android.os.Bundle;
 
@@ -34,7 +36,7 @@ import java.util.Objects;
  */
 public class ApplicationMainFragment extends Fragment {
 
-    FragmentNavigationListener navigationListener;
+//    FragmentNavigationListener navigationListener;
     FirebaseAuth mAuth;
     FirebaseDatabase mDatabase;
     DatabaseReference usersReference;
@@ -116,11 +118,10 @@ public class ApplicationMainFragment extends Fragment {
             }
         });
 
+        bottomNavigationView.setSelectedItemId(R.id.games_page);
 
-//        meetingMainTextView = view.findViewById(R.id.meetingMainTextView);
         getData();
         navigationListener.navigateToBottomBar(new GamesFragment());
-//        meetingMainTextView.setText(mDatabase.getReference().child("users").child(mAuth.getCurrentUser().getUid()).child("nickname").getKey());
         return view;
     }
 
@@ -129,7 +130,6 @@ public class ApplicationMainFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-//                meetingMainTextView.setText("Hi, " + user.getNickname() + "!");
             }
 
             @Override
@@ -139,14 +139,4 @@ public class ApplicationMainFragment extends Fragment {
         });
     }
 
-    // определение метода для перехода на новый фрагмент
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof FragmentNavigationListener) {
-            navigationListener = (FragmentNavigationListener) context;
-        } else {
-            throw new RuntimeException(context + " must implement FragmentNavigationListener");
-        }
-    }
 }

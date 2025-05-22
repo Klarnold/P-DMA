@@ -6,6 +6,19 @@
     <string name="email">Введите свою почту</string>
     <string name="password">Введите свой пароль</string>
     <string name="nicknameEditText">Введите свой никнейм</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_game_btn">Создать описание игры</string>
+    <string name="create_news_btn">Создать новость</string>
+    <string name="save_changes_btn">Сохранить изменения</string>
+    <string name="create_news">Создание новости</string>
+    <string name="create_game">Создание игры</string>
+    <string name="news_title">Заголовок</string>
+    <string name="image_url">Ссылка на изображение</string>
+    <string name="news_description">Описание новости</string>
+    <string name="game_description">Описание игры</string>
+    <string name="create_news_next">Создать новость</string>
+    <string name="create_game_next">Создать игру</string>
+    <string name="back">Назад</string>
+    <string name="field_required">Обязательное поле</string>
+    <string name="news_created_successfully">Новость успешно создана!</string>
+    <string name="game_created_successfully">Игра успешно создана!</string>
 </resources>
