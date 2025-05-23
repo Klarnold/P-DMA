@@ -1,6 +1,7 @@
 package com.example.application;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.application.databinding.ActivityMainBinding;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +37,12 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
     ActivityMainBinding binding;
     FragmentManager fragmentManager;
     public static DatabaseReference mDatabase;
+    public static FirebaseAuth mAuth;
+    public static NewsFragment newsFragment;
+    public static GamesFragment gamesFragment;
+    public static ProfileFragment profileFragment;
+    public static String bottomChosen;
+    public static ApplicationMainFragment applicationMainFragment;
 
     public static FragmentNavigationListener navigationListener;
 
@@ -56,6 +64,16 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
             return insets;
         });
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        bottomChosen = "games";
+        // Создаем фрагменты только если они null (чтобы не пересоздавать при повороте)
+        if (newsFragment == null) newsFragment = new NewsFragment();
+        if (gamesFragment == null) gamesFragment = new GamesFragment();
+        if (profileFragment == null) profileFragment = new ProfileFragment();
+        if (applicationMainFragment == null) applicationMainFragment = new ApplicationMainFragment();
+
+        mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         navigationListener = (FragmentNavigationListener) this;
         fragmentManager = getSupportFragmentManager();
@@ -80,5 +98,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
                 .replace(R.id.frameLayout, fragment);
         transaction.commit();
     }
+
 
 }

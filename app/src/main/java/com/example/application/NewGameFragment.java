@@ -1,5 +1,6 @@
 package com.example.application;
 
+import static com.example.application.MainActivity.applicationMainFragment;
 import static com.example.application.MainActivity.navigationListener;
 
 import android.os.Bundle;
@@ -105,7 +106,7 @@ public class NewGameFragment extends Fragment implements IdChecker{
         AddGames();
         mDatabase.child("games").child(gameId).setValue(newGame);
 
-        navigationListener.navigateToFragment(new ApplicationMainFragment(), false);
+        navigationListener.navigateToFragment(applicationMainFragment, false);
         // Показываем уведомление об успешном создании
         Toast.makeText(requireContext(), R.string.game_created_successfully, Toast.LENGTH_SHORT).show();
     }

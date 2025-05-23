@@ -3,6 +3,7 @@ package com.example.application;
 import android.content.Context;
 import android.os.Bundle;
 
+import static com.example.application.MainActivity.applicationMainFragment;
 import static com.example.application.MainActivity.navigationListener;
 
 import androidx.annotation.NonNull;
@@ -106,7 +107,7 @@ public class SignUpFragment extends Fragment {
                             if (task.isSuccessful()){
                                 frameTextView.setText(mAuth.getCurrentUser().getEmail());
                                 createNewUser(task.getResult().getUser(), view.findViewById(R.id.nicknameEditText));
-                                navigationListener.navigateToFragment(new ApplicationMainFragment(), true);
+                                navigationListener.navigateToFragment(applicationMainFragment, true);
                             }
                             else{
                                 Toast.makeText(requireActivity(), "Пользователь НЕ был зарегестрирован", Toast.LENGTH_SHORT).show();

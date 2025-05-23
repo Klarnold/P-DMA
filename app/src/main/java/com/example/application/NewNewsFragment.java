@@ -1,5 +1,6 @@
 package com.example.application;
 
+import static com.example.application.MainActivity.applicationMainFragment;
 import static com.example.application.MainActivity.navigationListener;
 
 import android.os.Bundle;

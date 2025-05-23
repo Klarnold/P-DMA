@@ -1,9 +1,12 @@
 package com.example.application;
 
+import static com.example.application.MainActivity.navigationListener;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -89,7 +92,7 @@ public class GameDetailFragment extends Fragment {
 
         // Обработка нажатия кнопки "назад"
         backButton.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
+            navigationListener.navigateToFragment(new AuthFragment(), false);
         });
 
 

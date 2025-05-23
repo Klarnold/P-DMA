@@ -1,6 +1,9 @@
 package com.example.application;
 
+import static com.example.application.MainActivity.applicationMainFragment;
 import static com.example.application.MainActivity.mDatabase;
+import static com.example.application.MainActivity.navigationListener;
+import static com.example.application.MainActivity.newsFragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -93,9 +96,8 @@ public class NewsDetailFragment extends Fragment {
             descriptionTextView.setText(newsItem.getDescription());
         }
 
-        // Обработка нажатия кнопки "назад"
         backButton.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
+            navigationListener.navigateToFragment(applicationMainFragment, false);
         });
 
 

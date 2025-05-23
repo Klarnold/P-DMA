@@ -9,10 +9,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?attr/colorSurface"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
-        android:paddingVertical="40dp"
-        android:background="?attr/colorSurface">
+        android:paddingVertical="40dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
@@ -28,22 +28,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-            <!-- Левая часть - изображение -->
-            <ImageView
-                android:id="@+id/profile_image_view"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-
                 android:gravity="center"
-                android:src="@mipmap/ic_launcher_round" />
+                android:orientation="vertical">
+                <!-- Левая часть - изображение -->
+                <ImageView
+                    android:id="@+id/profile_image_view"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+
+                    android:gravity="center"
+                    android:src="@mipmap/ic_launcher_round" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/change_profile_image_btn"
@@ -51,7 +51,7 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
                     android:scaleType="center"
-                    android:src="@drawable/profile_page"
+                    android:src="@drawable/profile_image"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.SmallComponent"
                     app:strokeColor="?attr/colorOutline"
                     app:strokeWidth="1dp"
@@ -62,8 +62,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="8dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -77,9 +77,9 @@
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="8"
-                        android:layout_marginBottom="16dp"
                         android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_weight="8"
                         app:boxBackgroundColor="@android:color/transparent">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -94,13 +94,13 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/change_nickname_image_btn"
+                        android:id="@+id/change_nickname_btn"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_weight="2"
                         android:layout_marginTop="12dp"
+                        android:layout_weight="2"
                         android:scaleType="center"
-                        android:src="@drawable/profile_page"
+                        android:src="@drawable/change_marker"
                         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.SmallComponent"
                         app:strokeColor="?attr/colorOutline"
                         app:strokeWidth="1dp"
@@ -118,8 +118,8 @@
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="8"
                         android:layout_marginEnd="8dp"
+                        android:layout_weight="8"
                         app:boxBackgroundColor="@android:color/transparent">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -133,13 +133,13 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/changea_image_btn"
+                        android:id="@+id/change_email_btn"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_weight="2"
                         android:layout_marginTop="10dp"
+                        android:layout_weight="2"
                         android:scaleType="center"
-                        android:src="@drawable/profile_page"
+                        android:src="@drawable/change_marker"
                         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.SmallComponent"
                         app:strokeColor="?attr/colorOutline"
                         app:strokeWidth="1dp"
@@ -147,7 +147,6 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
 
 
         <com.google.android.material.button.MaterialButton
@@ -175,5 +174,18 @@
             android:layout_height="48dp"
             android:text="@string/save_changes_btn"
             app:cornerRadius="8dp" />
+
+        <!-- Новая кнопка выхода -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/logout_button"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:text="Выйти из аккаунта"
+            android:textColor="?attr/colorError"
+            app:cornerRadius="8dp"
+            app:strokeColor="?attr/colorError" />
+
     </LinearLayout>
 </FrameLayout>

@@ -1,6 +1,10 @@
 package com.example.application;
 
+import static com.example.application.MainActivity.bottomChosen;
+import static com.example.application.MainActivity.gamesFragment;
 import static com.example.application.MainActivity.navigationListener;
+import static com.example.application.MainActivity.newsFragment;
+import static com.example.application.MainActivity.profileFragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -118,10 +122,26 @@ public class ApplicationMainFragment extends Fragment {
             }
         });
 
-        bottomNavigationView.setSelectedItemId(R.id.games_page);
-
         getData();
-        navigationListener.navigateToBottomBar(new GamesFragment());
+
+        switch (bottomChosen){
+            case "games":
+                bottomNavigationView.setSelectedItemId(R.id.games_page);
+                navigationListener.navigateToBottomBar(gamesFragment);
+                break;
+            case "news":
+                bottomNavigationView.setSelectedItemId(R.id.news_page);
+                navigationListener.navigateToBottomBar(newsFragment);
+                break;
+            case "profile":
+                bottomNavigationView.setSelectedItemId(R.id.profile_page);
+                navigationListener.navigateToBottomBar(profileFragment);
+                break;
+            default:
+                Toast.makeText(getContext(), "Wow, it's an error", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
         return view;
     }
 
@@ -138,5 +158,7 @@ public class ApplicationMainFragment extends Fragment {
             }
         });
     }
+
+
 
 }

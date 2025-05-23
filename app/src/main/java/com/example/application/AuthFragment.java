@@ -2,6 +2,9 @@ package com.example.application;
 
 import static android.app.ProgressDialog.show;
 
+import static com.example.application.MainActivity.mAuth;
+import static com.example.application.MainActivity.applicationMainFragment;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,8 +34,6 @@ public class AuthFragment extends Fragment {
     private Button signInBtn;
     private EditText emailEditText;
     private EditText passwordEditText;
-    private FirebaseAuth mAuth;
-
     public AuthFragment(){
         super(R.layout.auth_fragment);
     }
@@ -50,55 +51,51 @@ public class AuthFragment extends Fragment {
 
         TextView frameTextView = view.findViewById(R.id.authTextView);
         frameTextView.setText("Авторизация");
-        mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null) // ВАЖНО надо убрать и оставить только signOut
-        {
+        if (mAuth.getCurrentUser() != null){ // ВАЖНО
             navigationListener.navigateToFragment(new ApplicationMainFragment(), true);
         }
-        else
-            mAuth.signOut();
-        emailEditText = view.findViewById(R.id.emailEditText);
-        passwordEditText = view.findViewById(R.id.passwordEditText);
-        signInBtn = view.findViewById(R.id.signInBtn);
-        signUpBtn = view.findViewById(R.id.signUpBtn);
-        signUpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigationListener.navigateToFragment(new SignUpFragment(), true);
-            }
-        });
-
-        signInBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email, password;
-                email = emailEditText.getText().toString();
-                password = passwordEditText.getText().toString();
-                if (TextUtils.isEmpty(email)  || TextUtils.isEmpty(password)){
-                    passwordEditText.setText("");
-                    Toast.makeText(requireActivity(), "Не оставляйте пустые поля!", Toast.LENGTH_SHORT).show();
+        else {
+            emailEditText = view.findViewById(R.id.emailEditText);
+            passwordEditText = view.findViewById(R.id.passwordEditText);
+            signInBtn = view.findViewById(R.id.signInBtn);
+            signUpBtn = view.findViewById(R.id.signUpBtn);
+            signUpBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navigationListener.navigateToFragment(new SignUpFragment(), true);
                 }
-                else{
-                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                                String user_id = mAuth.getCurrentUser().getEmail();
-                                frameTextView.setText(user_id);
-                                navigationListener.navigateToFragment(new ApplicationMainFragment(), true);
-                                return;
-                            } else{
-                                Toast.makeText(requireActivity(), "Авторизация отменена", Toast.LENGTH_SHORT).show();
-                                return;
+            });
+
+            signInBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String email, password;
+                    email = emailEditText.getText().toString();
+                    password = passwordEditText.getText().toString();
+                    if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                        passwordEditText.setText("");
+                        Toast.makeText(requireActivity(), "Не оставляйте пустые поля!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    String user_id = mAuth.getCurrentUser().getEmail();
+                                    frameTextView.setText(user_id);
+                                    navigationListener.navigateToFragment(applicationMainFragment, true);
+                                    return;
+                                } else {
+                                    Toast.makeText(requireActivity(), "Авторизация отменена", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
                             }
-                        }
-                    });
-                    passwordEditText.setText("");
-                    Toast.makeText(requireActivity(), "Пользователя с такими почтой и паролем не существует", Toast.LENGTH_SHORT).show();
+                        });
+                        passwordEditText.setText("");
+                    }
                 }
-            }
-        });
 
+            });
+        }
         return view;
     }
 
