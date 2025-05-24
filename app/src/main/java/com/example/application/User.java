@@ -10,6 +10,7 @@ public class User {
     public User(){
         nickname = "None";
         email = "None";
+        image = "None";
         uid = "None";
     }
 

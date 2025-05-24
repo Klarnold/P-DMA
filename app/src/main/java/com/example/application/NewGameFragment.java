@@ -1,6 +1,7 @@
 package com.example.application;
 
 import static com.example.application.MainActivity.applicationMainFragment;
+import static com.example.application.MainActivity.bottomChosen;
 import static com.example.application.MainActivity.navigationListener;
 
 import android.os.Bundle;
@@ -56,19 +57,17 @@ public class NewGameFragment extends Fragment implements IdChecker{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Инициализация элементов
         titleInput = view.findViewById(R.id.title_input);
         imageUrlInput = view.findViewById(R.id.image_url_input);
         descriptionInput = view.findViewById(R.id.description_input);
         createButton = view.findViewById(R.id.create_game_button);
         View backButton = view.findViewById(R.id.back_button);
 
-        // Обработка нажатия кнопки "Назад"
         backButton.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
+            bottomChosen = "profile";
+            navigationListener.navigateToFragment(applicationMainFragment, false);
         });
 
-        // Обработка нажатия кнопки "Создать"
         createButton.setOnClickListener(v -> {
             createGame();
         });
@@ -81,7 +80,6 @@ public class NewGameFragment extends Fragment implements IdChecker{
         String imageUrl = imageUrlInput.getText().toString().trim();
         String description = descriptionInput.getText().toString().trim();
 
-        // Валидация полей
         if (title.isEmpty()) {
             titleInput.setError(getString(R.string.field_required));
             return;
@@ -92,22 +90,18 @@ public class NewGameFragment extends Fragment implements IdChecker{
             return;
         }
 
-        // Получаем текущую дату
         String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-        // Получаем ID автора (здесь нужно реализовать получение текущего пользователя)
         String authorUid = mAuth.getUid();
 
         gameId = RandomIdGenerator.generateRandomString(12);
 
-        // Создаем новую новость
         GameItem newGame = new GameItem(gameId, title, authorUid, currentDate, imageUrl, description);
 
         AddGames();
         mDatabase.child("games").child(gameId).setValue(newGame);
 
         navigationListener.navigateToFragment(applicationMainFragment, false);
-        // Показываем уведомление об успешном создании
         Toast.makeText(requireContext(), R.string.game_created_successfully, Toast.LENGTH_SHORT).show();
     }
 

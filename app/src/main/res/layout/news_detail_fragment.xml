@@ -44,7 +44,8 @@
             android:layout_height="250dp"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/profile_image"/>
 
         <!-- Автор и дата -->
         <LinearLayout

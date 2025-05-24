@@ -1,6 +1,7 @@
 package com.example.application;
 
 import static com.example.application.MainActivity.applicationMainFragment;
+import static com.example.application.MainActivity.bottomChosen;
 import static com.example.application.MainActivity.navigationListener;
 
 import android.os.Bundle;
@@ -71,7 +72,8 @@ public class NewNewsFragment extends Fragment implements IdChecker{
 
         // Обработка нажатия кнопки "Назад"
         backButton.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
+            bottomChosen = "profile";
+            navigationListener.navigateToFragment(applicationMainFragment, false);
         });
 
         // Обработка нажатия кнопки "Создать"
@@ -87,7 +89,6 @@ public class NewNewsFragment extends Fragment implements IdChecker{
         String imageUrl = imageUrlInput.getText().toString().trim();
         String description = descriptionInput.getText().toString().trim();
 
-        // Валидация полей
         if (title.isEmpty()) {
             titleInput.setError(getString(R.string.field_required));
             return;
@@ -98,22 +99,18 @@ public class NewNewsFragment extends Fragment implements IdChecker{
             return;
         }
 
-        // Получаем текущую дату
         String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-        // Получаем ID автора (здесь нужно реализовать получение текущего пользователя)
         String authorUid = mAuth.getUid();
 
         newsId = RandomIdGenerator.generateRandomString(10);
 
-        // Создаем новую новость
         NewsItem newNews = new NewsItem(newsId, title, authorUid, currentDate, imageUrl, description);
 
         AddNews();
         mDatabase.child("news").child(newsId).setValue(newNews);
 
         navigationListener.navigateToFragment(new ApplicationMainFragment(), false);
-        // Показываем уведомление об успешном создании
         Toast.makeText(requireContext(), R.string.news_created_successfully, Toast.LENGTH_SHORT).show();
     }
 

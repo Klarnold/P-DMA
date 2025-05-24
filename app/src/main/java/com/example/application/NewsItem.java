@@ -23,7 +23,6 @@ public class NewsItem implements Parcelable {
         this.id = "None";
     }
 
-    // Конструктор
     public NewsItem(String id, String title, String uid, String date, String imageUrl, String description) {
         this.title = title;
         this.uid = uid;
@@ -70,7 +69,6 @@ public class NewsItem implements Parcelable {
         dest.writeString(description);
     }
 
-    // Геттеры
     public String getTitle() { return title; }
     public String getUid() { return uid; }
     public String getDate() { return date; }

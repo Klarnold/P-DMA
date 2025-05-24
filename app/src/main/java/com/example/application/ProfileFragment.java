@@ -172,7 +172,7 @@ public class ProfileFragment extends Fragment {
         saveChangesBtn.setOnClickListener(v ->{
             try {
 //                String tempEmail = nicknameEditText.getText().toString();
-                if (!isValidEmail(nicknameEditText.getText().toString()))
+                if (!isValidEmail(emailEditText.getText().toString()))
                     throw new Exception();
                 mDatabase.child("users").child(Objects.requireNonNull(mAuth.getUid())).child("nickname").setValue(nicknameEditText.getText().toString());
                 mDatabase.child("users").child(Objects.requireNonNull(mAuth.getUid())).child("email").setValue(emailEditText.getText().toString());

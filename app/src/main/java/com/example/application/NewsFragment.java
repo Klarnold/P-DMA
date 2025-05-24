@@ -38,18 +38,14 @@ public class NewsFragment extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference("news");
 
-        // Инициализация RecyclerView
         newsRecycler = view.findViewById(R.id.news_recycler);
         newsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Инициализация SearchView
         searchView = view.findViewById(R.id.search);
         setupSearchView();
 
-        // Получаем FragmentManager из активности
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
 
-        // Настройка адаптера
         newsAdapter = new NewsAdapter(newsItemList, fragmentManager);
         newsRecycler.setAdapter(newsAdapter);
 

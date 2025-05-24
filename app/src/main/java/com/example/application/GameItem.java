@@ -21,7 +21,6 @@ public class GameItem implements Parcelable{
         this.id = "None";
     }
 
-    // Конструктор
     public GameItem(String id, String title, String uid, String date, String imageUrl, String description) {
         this.title = title;
         this.uid = uid;
@@ -66,7 +65,6 @@ public class GameItem implements Parcelable{
         dest.writeString(description);
     }
 
-    // Геттеры
     public String getTitle() { return title; }
     public String getUid() { return uid; }
     public String getDate() { return date; }

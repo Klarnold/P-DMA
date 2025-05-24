@@ -1,6 +1,7 @@
 package com.example.application;
 
 import static com.example.application.MainActivity.applicationMainFragment;
+import static com.example.application.MainActivity.bottomChosen;
 import static com.example.application.MainActivity.mDatabase;
 import static com.example.application.MainActivity.navigationListener;
 import static com.example.application.MainActivity.newsFragment;
@@ -80,7 +81,7 @@ public class NewsDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        // Инициализация элементов интерфейса
+
         ImageButton backButton = view.findViewById(R.id.back_button);
         TextView titleTextView = view.findViewById(R.id.news_detail_title);
         ImageView imageView = view.findViewById(R.id.news_detail_image);
@@ -88,7 +89,6 @@ public class NewsDetailFragment extends Fragment {
         TextView dateTextView = view.findViewById(R.id.news_detail_date);
         TextView descriptionTextView = view.findViewById(R.id.news_detail_description);
 
-        // Установка данных
         if (newsItem != null) {
             titleTextView.setText(newsItem.getTitle());
             getData(newsItem, authorTextView);
@@ -97,6 +97,7 @@ public class NewsDetailFragment extends Fragment {
         }
 
         backButton.setOnClickListener(v -> {
+            bottomChosen = "news";
             navigationListener.navigateToFragment(applicationMainFragment, false);
         });
 

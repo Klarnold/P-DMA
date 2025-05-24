@@ -1,5 +1,6 @@
 package com.example.application;
 
+import static com.example.application.MainActivity.bottomChosen;
 import static com.example.application.MainActivity.navigationListener;
 
 import android.os.Bundle;
@@ -92,6 +93,7 @@ public class GameDetailFragment extends Fragment {
 
         // Обработка нажатия кнопки "назад"
         backButton.setOnClickListener(v -> {
+            bottomChosen = "games";
             navigationListener.navigateToFragment(new AuthFragment(), false);
         });
 
